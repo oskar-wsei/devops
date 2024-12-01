@@ -1,0 +1,30 @@
+services:
+  nest-postgres:
+    image: postgres:12
+    container_name: nest-postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=database
+    ports:
+      - 5432:5432
+    networks:
+      - nest-network
+    volumes:
+      - postgres-data:/var/lib/postgres
+
+  nest-app:
+    build: .
+    container_name: nest-app
+    ports:
+      - 3000:3000
+    depends_on:
+      - nest-postgres
+    networks:
+      - nest-network
+
+networks:
+  nest-network:
+
+volumes:
+  postgres-data:
