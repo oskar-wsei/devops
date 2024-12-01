@@ -1,0 +1,33 @@
+name: On Push CI Workflow
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js 22
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies using npm ci
+        run: npm ci
+
+      # Step 4: Run tests
+      - name: Run unit tests
+        run: npm run test
+
+      # Step 5: Run end-to-end tests
+      - name: Run end-to-end tests
+        run: npm run test:e2e
