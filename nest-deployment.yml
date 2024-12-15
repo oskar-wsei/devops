@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nest-app
+spec:
+  selector:
+    matchLabels:
+      app: nest-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nest-app
+    spec:
+      containers:
+        - name: nest-app
+          image: nest-app-example
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nest-service
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: nest-app
+  type: NodePort
